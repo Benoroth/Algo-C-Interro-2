@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1511534524 source:z:\algo-c-interro-2\algo c interro 2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+

@@ -29,7 +29,7 @@ int testCombinaison(struct Mastermind joueur)
         else
             pieceMP++;      //On ajoute 1 au compteur de pièces mal placées
     }
-    return printf("Il y a %d pieces bien placees et %d mal placees\n",pieceBP, pieceMP); //On informe le joueurdu nombre de pieces bien/mal placées
+    return printf("Il y a %d pieces bien placees et %d mal placees\n",pieceBP,pieceMP); //On informe le joueurdu nombre de pieces bien/mal placées
 }
 
 int main()
@@ -53,9 +53,8 @@ int main()
     }
 
 //On joue tant qu'on a pas découvert la combinaison et tant qu'il nous reste des essais
-    while (joueur.essaisRestant>0 && joueur.combiJoueur[4]!=joueur.combiADeviner[4] && joueurJoue==1)
+    while ((joueur.essaisRestant && joueur.combiJoueur!=joueur.combiADeviner) || joueurJoue==1)
     {
-
 //On demande au joueur ses chiffres
         for (j=0; j<4; j++)
         {
@@ -70,6 +69,8 @@ int main()
         {
             printf("[%d]  \n", joueur.combiJoueur[k]);
         }
+        joueur.essaisRestant--;
+        printf("Il te reste %d essais !\n", joueur.essaisRestant);
 //On compare avec l'ordinateur
 //On doit faire la somme du nombre de pieces mal/bien placées
 
@@ -89,39 +90,27 @@ int main()
 //    }
 
         testCombinaison(joueur);
-    }
 
-    if (joueur.essaisRestant==0)
-    {
-        printf("Tu n'as plus d'essais, tu as donc perdu la partie.\n");
-        joueur.partiesLost++;
-        printf("Veux tu rejouer ? Oui=1  Non =0\n");
-        scanf("%d", &joueurJoue);
-        if (joueurJoue==1)
-        {
-            return 1;
-        }
-        else if (joueurJoue==0)
-        {
-            return 0;
-        }
 
-    }
-    else if (joueur.combiJoueur==joueur.combiADeviner)
-    {
-        printf("Felicitations tu as gagne une partie !\n");
-        joueur.partiesWin++;
-        printf("Veux tu rejouer ? Oui=1  Non =0\n");
-        scanf("%d", &joueurJoue);
-        if (joueurJoue==1)
+
+if (joueur.essaisRestant==0)
         {
-            return 1;
+            printf("Tu n'as plus d'essais, tu as donc perdu la partie.\n");
+            joueur.partiesLost++;
+            printf("Veux tu rejouer ? Oui=1  Non =0\n");
+            scanf("%d", &joueurJoue);
+            joueur.essaisRestant=10;
+
+
         }
-        else if (joueurJoue==0)
+        else if (joueur.combiJoueur==joueur.combiADeviner)
         {
-            return 0;
+            printf("Felicitations tu as gagne une partie !\n");
+            joueur.partiesWin++;
+            printf("Veux tu rejouer ? Oui=1  Non =0\n");
+            scanf("%d", &joueurJoue);
+            joueur.essaisRestant=10;
         }
     }
-
     return 0;
 }
