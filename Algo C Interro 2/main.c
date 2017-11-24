@@ -22,16 +22,17 @@ int testCombinaison(struct Mastermind joueur)
 
     for (i=0; i>4; i++)
     {
-        if (joueur.combiJoueur[i]==joueur.combiADeviner[i]) //On vérifie si la piece n°i est la même que celle à deviner
+        while (joueur.combiJoueur[i]==joueur.combiADeviner[i]) //On vérifie si la piece n°i est la même que celle à deviner
         {
             pieceBP++;      //On ajoute 1 au compteur de pieces bien placées
         }
-        else
+        while (joueur.combiJoueur!=joueur.combiADeviner)
+        {
             pieceMP++;      //On ajoute 1 au compteur de pièces mal placées
+        }
     }
     return printf("Il y a %d pieces bien placees et %d mal placees\n",pieceBP,pieceMP); //On informe le joueurdu nombre de pieces bien/mal placées
 }
-
 int main()
 {
     srand(time(NULL));
@@ -53,7 +54,7 @@ int main()
     }
 
 //On joue tant qu'on a pas découvert la combinaison et tant qu'il nous reste des essais
-    while ((joueur.essaisRestant && joueur.combiJoueur!=joueur.combiADeviner) || joueurJoue==1)
+    while (joueur.essaisRestant!=0 && joueur.combiJoueur!=joueur.combiADeviner && joueurJoue!=0)
     {
 //On demande au joueur ses chiffres
         for (j=0; j<4; j++)
@@ -61,7 +62,6 @@ int main()
             printf(" Choisis le chiffre a la position %d :\n", j+1);
             scanf("%d", &joueur.combiJoueur[j]);
         }
-
         //On affiche le tableau
         printf("Tu as choisi :\n");
 
@@ -91,18 +91,15 @@ int main()
 
         testCombinaison(joueur);
 
-
-
-if (joueur.essaisRestant==0)
+        if (joueur.essaisRestant==0)
         {
             printf("Tu n'as plus d'essais, tu as donc perdu la partie.\n");
             joueur.partiesLost++;
             printf("Veux tu rejouer ? Oui=1  Non =0\n");
             scanf("%d", &joueurJoue);
             joueur.essaisRestant=10;
-
-
         }
+
         else if (joueur.combiJoueur==joueur.combiADeviner)
         {
             printf("Felicitations tu as gagne une partie !\n");
@@ -112,5 +109,12 @@ if (joueur.essaisRestant==0)
             joueur.essaisRestant=10;
         }
     }
+    printf("Au final tu as gagne : %d fois et perdu :%d fois", joueur.partiesWin, joueur.partiesLost);
+
     return 0;
 }
+
+
+
+
+//je desespère du coup j'ai plus le temps de tester une boucle while où à chaque fois d'une valeur de tableau = l'autre on incrément le compteur de piece bien/mal placees
