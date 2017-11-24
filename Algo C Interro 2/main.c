@@ -11,15 +11,20 @@ struct Mastermind
     int combiJoueur[4];
 };
 
-int testCombinaison(struct Mastermind joueur)
+int testCombinaison(struct Mastermind joueur, int combinaison)
 {
-    int i;
+    int i,k;
     int pieceBP; //bien placée
     int pieceMP; //mal placée
     pieceBP=0;  //le nombre de fois où la condition est validée
     pieceMP=0;  //
 //On doit faire la somme du nombre de pieces mal/bien placées
 
+//On génère la combinaison à deviner
+    for (k=0; k<4; k++)
+    {
+        joueur.combiADeviner[k]= rand()%10 ;
+    }
     for (i=0; i>4; i++)
     {
         while (joueur.combiJoueur[i]==joueur.combiADeviner[i]) //On vérifie si la piece n°i est la même que celle à deviner
@@ -36,7 +41,7 @@ int testCombinaison(struct Mastermind joueur)
 int main()
 {
     srand(time(NULL));
-    int i,j,k;
+    int j,k;
     int joueurJoue;
     joueurJoue=1;
 
@@ -47,11 +52,6 @@ int main()
     joueur.partiesLost=0;
     joueur.partiesWin=0;
 
-//On génère la combinaison à deviner
-    for (i=0; i<4; i++)
-    {
-        joueur.combiADeviner[i]= rand()%10 ;
-    }
 
 //On joue tant qu'on a pas découvert la combinaison et tant qu'il nous reste des essais
     while (joueur.essaisRestant!=0 && joueur.combiJoueur!=joueur.combiADeviner && joueurJoue!=0)
@@ -89,7 +89,7 @@ int main()
 //
 //    }
 
-        testCombinaison(joueur);
+        testCombinaison(joueur, joueur.combiJoueur);
 
         if (joueur.essaisRestant==0)
         {
